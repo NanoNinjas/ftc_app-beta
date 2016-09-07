@@ -63,7 +63,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwareK9bot;
 public class NN_9774TeleopTank_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareK9bot   robot           = new HardwareK9bot();              // Use a K9'shardware
+    HardwareNNDemobot   robot       = new HardwareNNDemobot();      // Use a NN's hardware
     double          armPosition     = robot.ARM_HOME;                   // Servo safe position
     double          clawPosition    = robot.CLAW_HOME;                  // Servo safe position
     final double    CLAW_SPEED      = 0.01 ;                            // sets rate to move servo
@@ -92,8 +92,10 @@ public class NN_9774TeleopTank_Linear extends LinearOpMode {
             // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
             left = -gamepad1.left_stick_y;
             right = -gamepad1.right_stick_y;
-            robot.leftMotor.setPower(left);
-            robot.rightMotor.setPower(right);
+            robot.leftFMotor.setPower(left);
+            robot.rightFMotor.setPower(right);
+            robot.leftRMotor.setPower(left);
+            robot.rightRMotor.setPower(right);
 
             // Use gamepad Y & A raise and lower the arm
             if (gamepad1.a)
@@ -110,9 +112,11 @@ public class NN_9774TeleopTank_Linear extends LinearOpMode {
 
             // Move both servos to new position.
             armPosition  = Range.clip(armPosition, robot.ARM_MIN_RANGE, robot.ARM_MAX_RANGE);
-            robot.arm.setPosition(armPosition);
+            robot.armLeft.setPosition(armPosition);
+            robot.armRight.setPosition(armPosition);
             clawPosition = Range.clip(clawPosition, robot.CLAW_MIN_RANGE, robot.CLAW_MAX_RANGE);
-            robot.claw.setPosition(clawPosition);
+            robot.clawLeft.setPosition(clawPosition);
+            robot.clawRight.setPosition(clawPosition);
 
             // Send telemetry message to signify robot running;
             telemetry.addData("arm",   "%.2f", armPosition);
